@@ -12,7 +12,7 @@ var assignTime = function(){
 };
 
 
-$(".description").on("click", "div", function() {
+$(".description").on("click", "p", function() {
   
     var text = $(this)
         .text()
