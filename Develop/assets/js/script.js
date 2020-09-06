@@ -15,8 +15,7 @@ var assignTime = function(){
 
 
 var checkauditTime = function(){
-    $(".hour").each(function (el) {
-    
+    $(".row").each(function (i, el) {
         auditTime(el);
       });
 };
@@ -25,17 +24,25 @@ var auditTime = function(todoEl){
     
         // get date from task element
         debugger
-        var hourTxt = $(todoEl).find("p").text().trim();
+        //console.log(todoEl)
+        var hourTxt = $(this).children(".hour p").text()//.trim();
         // ensure it worked
-        console.log(hourTxt); 
+        //console.log(hourTxt); 
         
-        
-        //var time = moment(hourTxt).format("MM-DD-YYYY - hh:mm:ss");
-        //console.log(time);
-        // this should print out an object for the value of the date variable, but at 5:00pm of that date
-        //console.log(time);
+        var elHour = moment(hourTxt, "hA");
+      
+        var nxtHour = elHour.add(1, "h");
+        //console.log(nxtHour);
+
         // remove any old classes from element
-        //$(taskEl).removeClass("list-group-item-warning list-group-item-danger");
+        $("#toDo-Grid").removeClass("list-group-item-warning list-group-item-danger");
+        
+        //debugger
+        if(moment().isBefore(nxtHour) && moment().isAfter(elHour)){
+            $("#toDo-Grid").addClass("list-group-item-danger");
+        }
+
+        
         
         /// apply new class if task is near/over due date
        // if (moment().isAfter(time)) {
