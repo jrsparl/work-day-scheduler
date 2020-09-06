@@ -23,23 +23,31 @@ var checkauditTime = function(){
 var auditTime = function(todoEl){
     
         // get date from task element
-        debugger
+        //debugger
         //console.log(todoEl)
-        var hourTxt = $(this).children(".hour p").text()//.trim();
+        //var hourID = $(this).children(".hour").children().attr("id")
+        var hourTxt = $(todoEl).children(".hour").children().text()
+        //console.log(hourTxt)
         // ensure it worked
         //console.log(hourTxt); 
         
         var elHour = moment(hourTxt, "hA");
+        console.log(elHour.format("hA"))
       
-        var nxtHour = elHour.add(1, "h");
+        var nxtHour = elHour.add(1, "hours");
+        console.log(nxtHour.format("hA"))
         //console.log(nxtHour);
 
         // remove any old classes from element
-        $("#toDo-Grid").removeClass("list-group-item-warning list-group-item-danger");
-        
+        //$("#toDo-Grid").removeClass("list-group-item-warning list-group-item-danger");
+        debugger
+        console.log($(todoEl).children(".description"))
+        $(todoEl).children(".description").addClass(".bg-danger");
         //debugger
+        console.log(moment().isBefore(nxtHour))
+        console.log(moment().isAfter(elHour))
         if(moment().isBefore(nxtHour) && moment().isAfter(elHour)){
-            $("#toDo-Grid").addClass("list-group-item-danger");
+            $$(todoEl).children(".description").addClass("list-group-item-danger");
         }
 
         
