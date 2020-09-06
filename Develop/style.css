@@ -27,6 +27,11 @@ textarea{
   top: 0;
 }
 
+.description p{
+  min-width: 20px;
+  min-height: 20px;
+}
+
 .time-block{
   text-align: center;
   border-radius: 15px;
