@@ -39,32 +39,59 @@ var auditTime = function(todoEl){
         //console.log(nxtHour);
 
         // remove any old classes from element
-        //$("#toDo-Grid").removeClass("list-group-item-warning list-group-item-danger");
-        debugger
-        console.log($(todoEl).children(".description"))
-        $(todoEl).children(".description").addClass(".bg-danger");
+        $(todoEl).children(".description").removeClass("bg-danger bg-success");
+        //debugger
+        console.log($(todoEl).children(".description").text())
+        
         //debugger
         console.log(moment().isBefore(nxtHour))
         console.log(moment().isAfter(elHour))
         if(moment().isBefore(nxtHour) && moment().isAfter(elHour)){
-            $$(todoEl).children(".description").addClass("list-group-item-danger");
-        }
+            $(todoEl).children(".description").addClass("bg-danger");
+        } else if(moment().isBefore(elHour)) {
+            $(todoEl).children(".description").addClass("bg-success");
+        };
 
-        
-        
-        /// apply new class if task is near/over due date
-       // if (moment().isAfter(time)) {
-        //  $(taskEl).addClass("list-group-item-danger");
-       // } 
-       // else if (Math.abs(moment().diff(time, "days")) <= 2) {
-       //   $(taskEl).addClass("list-group-item-warning");
-      //  }
     
 };
 
+var saveTask = function(rowEl) {
+    //debugger
+    var descTxt = $(rowEl).children(".description").children().text()
+    var descId = $(rowEl).children(".description").attr("id")
+    toDoObj = {
+        ToDoDesc: descTxt,
+        ToDoID: descId
+    }
+    localStorage.setItem("toDoObject", JSON.stringify(toDoObj));
+ }
 
+ var loadTasks = function() {
+    //debugger
+    toDos = JSON.parse(localStorage.getItem("toDoObject"));
+  
+    // if nothing in localStorage, create a new object to track all task status arrays
+    if (!toDos) {
+        toDoObj = {
+            ToDoDesc: [],
+            ToDoID: []
+      };
+    }
+  
+    // loop over object properties
+    $.each(toDos, function(list, arr) {
+      console.log(list, arr);
+      // then loop over sub-array
+      $('#' + toDos.ToDoID).find("p").text(toDos.ToDoDesc)
+    });
+  };
+  
 
-
+ $(".row").on("click", "i", function() {
+    //debugger 
+    var rEl = $(this).parent(".saveBtn").parent(".row")
+    saveTask(rEl);
+ });
 
 
 $(".description").on("click", "p", function() {
@@ -97,9 +124,18 @@ $(".description").on("click", "p", function() {
   
   });
 
- 
 
+
+
+
+
+
+  setInterval(function() {
+    checkauditTime();
+  }, (1000 * 60));
 
 
 
 assignTime();
+checkauditTime();
+loadTasks();
